@@ -176,7 +176,6 @@ import { ref, computed } from 'vue'
 import { isAppIcon } from '@/utils/common'
 import EditTitleDialog from './EditTitleDialog.vue'
 import useStore from '@/stores'
-import { c } from 'vite/dist/node/moduleRunnerTransport.d-CXw_Ws6P'
 
 const { user } = useStore()
 const props = defineProps<{
