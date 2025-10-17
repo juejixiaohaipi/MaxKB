@@ -200,7 +200,6 @@ const loginHandle = () => {
             loading.value = false
           })
       } else {
-        console.log('rasKey', user.rasKey)
         const publicKey = forge.pki.publicKeyFromPem(user.rasKey);
         const encrypted = publicKey.encrypt(JSON.stringify(loginForm.value), 'RSAES-PKCS1-V1_5');
         const encryptedBase64 = forge.util.encode64(encrypted);
@@ -411,11 +410,6 @@ onBeforeMount(() => {
 declare const window: any
 
 onMounted(() => {
-
-  window.addEventListener('message', function (event: any) {
-    console.log('message', event)
-  });
-  
   const route = useRoute()
   const currentUrl = ref(route.fullPath)
   const params = new URLSearchParams(currentUrl.value.split('?')[1])

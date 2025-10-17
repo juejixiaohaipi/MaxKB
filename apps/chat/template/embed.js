@@ -58,39 +58,7 @@ const initGuide=(root)=>{
    button.onclick=close_func
    close_icon.onclick=close_func
 }
-const initChat = (root) => {
-  // zh-CN en-US
-  // console.log(
-  //   900900,
-  //   '所有模板变量1:',
-  //   {
-  //       lang: '{{lang}}',
-  //       protocol: '{{protocol}}',
-  //       host: '{{host}}',
-  //       token: '{{token}}',
-  //       is_auth: '{{is_auth}}',
-  //       white_list_str: '{{white_list_str}}',
-  //       white_active: '{{white_active}}',
-  //       is_draggable: '{{is_draggable}}',
-  //       float_icon: '{{float_icon}}',
-  //       query: '{{query}}',
-  //       show_guide: '{{show_guide}}',
-  //       x_type: '{{x_type}}',
-  //       x_value: '{{x_value}}',
-  //       y_type: '{{y_type}}',
-  //       y_value: '{{y_value}}',
-  //       max_kb_id: '{{max_kb_id}}',
-  //       header_font_color: '{{header_font_color}}'
-  //   }
-  // )
-  let sgLang = document.querySelector('#v-normal-layout .v-toolbar__items span.hidden-sm-and-down')
-  console.log(789456123, sgLang, sgLang.innerText)
-  
-  let localeLang = '{{lang}}' || 'en-US' 
-  console.log(999, localeLang)
-  localStorage.setItem('MaxKB-locale', localeLang)
-  localStorage.setItem('146d412151454f23-locale', localeLang)
-  
+const initChat=(root)=>{
   // 添加对话icon
   root.insertAdjacentHTML("beforeend",chatButtonHtml)
   // 添加对话框
@@ -171,7 +139,7 @@ function initMaxkb(){
   document.body.appendChild(maxkb)
   const maxkbMaskTip=localStorage.getItem('maxkbMaskTip')
   if(maxkbMaskTip==null && {{show_guide}}){
-    initGuide(root)
+    // initGuide(root)
   }
   initChat(root)
 }

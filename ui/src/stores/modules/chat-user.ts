@@ -51,7 +51,6 @@ const useChatUserStore = defineStore('chat-user', {
       return ChatAPI.applicationProfile().then((ok) => {
         console.log('applicationProfile', ok.data)
         this.application = ok.data
-
         localStorage.setItem(`${this.accessToken}-locale`, ok.data?.language || this.getLanguage())
       })
     },
