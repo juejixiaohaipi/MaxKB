@@ -47,8 +47,18 @@ const toQuickQuestion = (match: string, offset: number, input: string) => {
   return `<quick_question>${match.replace('- ', '')}</quick_question>`
 }
 const prologue = computed(() => {
-  const temp = props.available ? props.application?.prologue : t('chat.tip.prologueMessage')
+  let temp = props.available ? props.application?.prologue : t('chat.tip.prologueMessage')
   if (temp) {
+    const url = new URL(window.location.href)
+    const lang = url.searchParams.get('lang')
+    console.log('10011001', window.location.href,  lang, temp)
+    if (lang) {
+      temp = 'Hello, I am the ShipSage assistant. You can ask me about ShipSage usage issues.\n- What are the main functions of ShipSage?\n- How to upload order?\n- What is VAS?';
+      if ('zh-CN' === lang) {
+        temp = "您好，我是ShipSage小助手。您可以咨询我关于ShipSage的使用问题。\n- ShipSage的主要功能有哪些？\n- 如何上传订单？\n- 什么是VAS？"
+      }
+    }
+
     const tag_list = [
       /<html_rander>[\d\D]*?<\/html_rander>/g,
       /<echarts_rander>[\d\D]*?<\/echarts_rander>/g,

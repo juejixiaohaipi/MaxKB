@@ -143,6 +143,7 @@ const useUserStore = defineStore('user', {
             this.edition = ok.data.edition
             this.version = ok.data.version
             this.rasKey = ok.data.ras
+
             const theme = useThemeStore()
             if (this.isEE() || this.isPE()) {
               await theme.theme()

@@ -25,6 +25,7 @@ class ChatEmbedSerializer(serializers.Serializer):
     host = serializers.CharField(required=True, label=_("Host"))
     protocol = serializers.CharField(required=True, label=_("protocol"))
     token = serializers.CharField(required=True, label=_("token"))
+    lang = serializers.CharField(required=False, label=_("lang"))
 
     def get_embed(self, with_valid=True, params=None):
         if params is None:
@@ -68,21 +69,29 @@ class ChatEmbedSerializer(serializers.Serializer):
         t = Template(content)
         s = t.render(
             Context(
-                {'is_auth': is_auth, 'protocol': self.data.get('protocol'), 'host': self.data.get('host'),
-                 'token': self.data.get('token'),
-                 'white_list_str': ",".join(
-                     application_access_token.white_list if application_access_token.white_list is not None else []),
-                 'white_active': 'true' if application_access_token.white_active else 'false',
-                 'is_draggable': is_draggable,
-                 'float_icon': float_icon,
-                 'query': query,
-                 'show_guide': show_guide,
-                 'x_type': float_location.get('x', {}).get('type', 'right'),
-                 'x_value': float_location.get('x', {}).get('value', 0),
-                 'y_type': float_location.get('y', {}).get('type', 'bottom'),
-                 'y_value': float_location.get('y', {}).get('value', 30),
-                 'max_kb_id': str(uuid.uuid7()).replace('-', ''),
-                 'header_font_color': header_font_color}))
+                {
+                    'is_auth': is_auth, 'protocol': 
+                    self.data.get('protocol'), 
+                    'host': self.data.get('host'),
+                    'token': self.data.get('token'),
+                    'lang': self.data.get('lang'),
+                    'white_list_str': ",".join(
+                        application_access_token.white_list if application_access_token.white_list is not None else []
+                    ),
+                    'white_active': 'true' if application_access_token.white_active else 'false',
+                    'is_draggable': is_draggable,
+                    'float_icon': float_icon,
+                    'query': query,
+                    'show_guide': show_guide,
+                    'x_type': float_location.get('x', {}).get('type', 'right'),
+                    'x_value': float_location.get('x', {}).get('value', 0),
+                    'y_type': float_location.get('y', {}).get('type', 'bottom'),
+                    'y_value': float_location.get('y', {}).get('value', 30),
+                    'max_kb_id': str(uuid.uuid7()).replace('-', ''),
+                    'header_font_color': header_font_color
+                }
+            )
+        )
         response = HttpResponse(s, status=200, headers={'Content-Type': 'text/javascript'})
         return response
 

@@ -28,5 +28,9 @@ class ChatEmbedView(APIView):
     )
     def get(self, request: Request):
         return ChatEmbedSerializer(
-            data={'protocol': request.query_params.get('protocol'), 'token': request.query_params.get('token'),
-                  'host': request.query_params.get('host'), }).get_embed(params=request.query_params)
+            data={
+                'protocol': request.query_params.get('protocol'), 
+                'token': request.query_params.get('token'),
+                'host': request.query_params.get('host'), 
+                'lang': request.query_params.get('lang'), 
+            }).get_embed(params=request.query_params)

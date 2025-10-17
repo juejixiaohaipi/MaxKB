@@ -39,6 +39,13 @@ class ChatEmbedAPI(APIMixin):
                 type=OpenApiTypes.STR,
                 location='query',
                 required=False,
+            ),
+            OpenApiParameter(
+                name="lang",
+                description=_("lang"),
+                type=OpenApiTypes.STR,
+                location='query',
+                required=False,
             )
         ]
 
