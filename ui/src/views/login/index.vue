@@ -189,7 +189,7 @@ const loginHandle = () => {
   loginFormRef.value.validate((valid) => {
     if (valid) {
       loading.value = true
-      if (loginMode.value === 'LDAP' || !user.rasKey) {
+      if (loginMode.value === 'LDAP') {
         login
           .asyncLdapLogin(loginForm.value)
           .then(() => {

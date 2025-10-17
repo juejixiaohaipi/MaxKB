@@ -138,6 +138,7 @@ const useUserStore = defineStore('user', {
       return new Promise((resolve, reject) => {
         UserApi.getProfile()
           .then(async (ok) => {
+            console.log(777, ok)
             // this.version = ok.data?.version || '-'
             this.license_is_valid = ok.data.license_is_valid
             this.edition = ok.data.edition
