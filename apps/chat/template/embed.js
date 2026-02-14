@@ -21,7 +21,7 @@ const guideHtml=`
 `
 const chatButtonHtml=
 `<div class="maxkb-chat-button" >
-<img style="height:100%;width:100%;" src="{{float_icon}}">
+<img style="height:100%;width:100%;max-width:64px;max-height:64px;" src="{{float_icon}}">
 </div>`
 
 
@@ -103,25 +103,25 @@ const initChat=(root)=>{
       closeviewport.classList.remove('maxkb-viewportnone')
     }
   }
-     const drag=(e)=>{
-            if (['touchmove','touchstart'].includes(e.type)) {
-             chat_button.style.top=(e.touches[0].clientY-chat_button_img.naturalHeight/2)+'px'
-             chat_button.style.left=(e.touches[0].clientX-chat_button_img.naturalWidth/2)+'px'
-          } else {
-             chat_button.style.top=(e.y-chat_button_img.naturalHeight/2)+'px'
-             chat_button.style.left=(e.x-chat_button_img.naturalWidth/2)+'px'
-          }
-            chat_button.style.width =chat_button_img.naturalWidth+'px'
-            chat_button.style.height =chat_button_img.naturalHeight+'px'
-        }
-  if({{is_draggable}}){
-  chat_button.addEventListener("drag",drag)
-  chat_button.addEventListener("dragover",(e)=>{
-             e.preventDefault()
-   })
-  chat_button.addEventListener("dragend",drag)
-  chat_button.addEventListener("touchstart",drag)
-  chat_button.addEventListener("touchmove",drag)
+  const drag=(e)=>{
+      if (['touchmove','touchstart'].includes(e.type)) {
+        chat_button.style.top=(e.touches[0].clientY-chat_button_img.naturalHeight/2)+'px'
+        chat_button.style.left=(e.touches[0].clientX-chat_button_img.naturalWidth/2)+'px'
+    } else {
+        chat_button.style.top=(e.y-chat_button_img.naturalHeight/2)+'px'
+        chat_button.style.left=(e.x-chat_button_img.naturalWidth/2)+'px'
+    }
+      chat_button.style.width =chat_button_img.naturalWidth+'px'
+      chat_button.style.height =chat_button_img.naturalHeight+'px'
+  }
+  if({{is_draggable}} || 1){
+    chat_button.addEventListener("drag",drag)
+    chat_button.addEventListener("dragover",(e)=>{
+      e.preventDefault()
+    })
+    chat_button.addEventListener("dragend",drag)
+    chat_button.addEventListener("touchstart",drag)
+    chat_button.addEventListener("touchmove",drag)
   }
   viewport.onclick=viewport_func
   closeviewport.onclick=viewport_func

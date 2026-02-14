@@ -196,14 +196,14 @@ const {
 } = route as any
 
 const isPc = computed(() => {
-  console.log(common.isMobile())
+  // console.log(common.isMobile())
   let modeName = ''
   if (!mode || mode === 'pc') {
     modeName = common.isMobile() ? 'mobile' : 'pc'
   } else {
     modeName = mode
   }
-  console.log(modeName)
+  // console.log(modeName)
   return modeName === 'pc'
 })
 

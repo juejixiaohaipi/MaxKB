@@ -188,7 +188,7 @@ const props = defineProps<{
 const emit = defineEmits(['newChat', 'clickLog', 'deleteLog', 'refreshFieldTitle', 'clearChat'])
 
 const showHistory = computed(() => {
-  console.log(props.applicationDetail?.show_history)
+  // console.log(props.applicationDetail?.show_history)
   return props.applicationDetail?.show_history != null || undefined
     ? props.applicationDetail?.show_history
     : true

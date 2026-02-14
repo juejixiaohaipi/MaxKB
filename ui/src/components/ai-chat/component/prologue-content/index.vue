@@ -50,13 +50,21 @@ const prologue = computed(() => {
   let temp = props.available ? props.application?.prologue : t('chat.tip.prologueMessage')
   if (temp) {
     const url = new URL(window.location.href)
+    // console.log(url, url.searchParams, props)
     const lang = url.searchParams.get('lang')
-    console.log('10011001', window.location.href,  lang, temp)
     if (lang) {
-      temp = 'Hello, I am the ShipSage assistant. You can ask me about ShipSage usage issues.\n- What are the main functions of ShipSage?\n- How to upload order?\n- What is VAS?';
-      if ('zh-CN' === lang) {
-        temp = "您好，我是ShipSage小助手。您可以咨询我关于ShipSage的使用问题。\n- ShipSage的主要功能有哪些？\n- 如何上传订单？\n- 什么是VAS？"
+      if ('shipsage' in props.application?.desc.lower()) {
+        temp = 'Hello, I am the ShipSage assistant. You can ask me about system usage issues.\n- What are the main functions of ShipSage?\n- How to upload order?\n- What is VAS?';
+        if ('zh-CN' === lang) {
+          temp = "您好，我是ShipSage小助手。您可以咨询我关于系统的使用问题。\n- ShipSage的主要功能有哪些？\n- 如何上传订单？\n- 什么是VAS？"
+        }
+      } else {
+        temp = "Hello, I'm your smart assistant. Could I help you?";
+        if ('zh-CN' === lang) {
+          temp = "您好，我是智能小助手。有什么我能帮你的吗？"
+        }
       }
+      
     }
 
     const tag_list = [

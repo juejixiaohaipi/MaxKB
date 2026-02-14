@@ -25,7 +25,7 @@ class ChatEmbedSerializer(serializers.Serializer):
     host = serializers.CharField(required=True, label=_("Host"))
     protocol = serializers.CharField(required=True, label=_("protocol"))
     token = serializers.CharField(required=True, label=_("token"))
-    lang = serializers.CharField(required=True, label=_("lang"))
+    lang = serializers.CharField(required=False, label=_("lang"))
 
     def get_embed(self, with_valid=True, params=None):
         if params is None:
