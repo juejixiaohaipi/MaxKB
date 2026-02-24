@@ -46,7 +46,7 @@ const showUserAvatar = computed(() => {
 const toQuickQuestion = (match: string, offset: number, input: string) => {
   return `<quick_question>${match.replace('- ', '')}</quick_question>`
 }
-const updatedPrologue = (prologue) => {
+const updatedPrologue = (prologue: string) => {
   const lang = new URL(window.location.href).searchParams.get('lang')
   if (lang) {
     if ('shipsage' in props.application?.desc) {
