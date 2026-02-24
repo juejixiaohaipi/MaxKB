@@ -139,7 +139,7 @@ function initMaxkb(){
   document.body.appendChild(maxkb)
   const maxkbMaskTip=localStorage.getItem('maxkbMaskTip')
   if(maxkbMaskTip==null && {{show_guide}}){
-    initGuide(root)
+    // initGuide(root)
   }
   initChat(root)
 }
@@ -325,5 +325,10 @@ function embedChatbot() {
     initMaxkb()
   } else console.error('invalid parameter')
 }
-window.addEventListener('load',embedChatbot)
+
+if (document.readyState === 'loading') {
+  window.addEventListener('load',embedChatbot)
+} else {
+  embedChatbot()
+}
 })();

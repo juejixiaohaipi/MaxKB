@@ -33,7 +33,7 @@
           @refreshFieldTitle="refreshFieldTitle"
           :isPcCollapse="isPcCollapse"
         >
-          <div class="user-info p-16 cursor">
+          <div class="user-info p-16 cursor" v-if="0">
             <el-avatar
               :size="32"
               v-if="

@@ -26,7 +26,7 @@ const useChatUserStore = defineStore('chat-user', {
   }),
   actions: {
     getLanguage() {
-      return localStorage.getItem(`${this.accessToken}-locale`) || getBrowserLang()
+      return new URL(window.location.href).searchParams.get('lang') || localStorage.getItem(`${this.accessToken}-locale`) || getBrowserLang()
     },
     setAccessToken(accessToken: string) {
       this.accessToken = accessToken
@@ -44,7 +44,7 @@ const useChatUserStore = defineStore('chat-user', {
     },
     applicationProfile() {
       return ChatAPI.applicationProfile().then((ok) => {
-        console.log('applicationProfile', ok.data)
+        // console.log('applicationProfile', ok.data)
         this.application = ok.data
         localStorage.setItem(`${this.accessToken}-locale`, ok.data?.language || this.getLanguage())
       })

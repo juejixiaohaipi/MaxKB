@@ -46,9 +46,30 @@ const showUserAvatar = computed(() => {
 const toQuickQuestion = (match: string, offset: number, input: string) => {
   return `<quick_question>${match.replace('- ', '')}</quick_question>`
 }
+const updatedPrologue = (prologue) => {
+  const lang = new URL(window.location.href).searchParams.get('lang')
+  if (lang) {
+    if ('shipsage' in props.application?.desc) {
+      if ('zh-CN' === lang) {
+        prologue = 'Hello, I am the ShipSage assistant. You can ask me about ShipSage usage questions.\n- What are the main functions of ShipSage?\n- How to upload order?\n- What is VAS?'
+      } else {
+        prologue = "您好，我是ShipSage小助手。您可以咨询我关于ShipSage的使用问题。\n- ShipSage的主要功能有哪些？\n- 如何上传订单？\n- 什么是VAS？"
+      }
+    } else {
+      if ('zh-CN' === lang) {
+        prologue = 'Hello, I am the ai assistant. Could I help you?.'
+      } else {
+        prologue = "您好，我是AI小助手。需要我帮你帮你吗？"
+      }
+    }
+  }
+
+  return prologue
+}
 const prologue = computed(() => {
-  const temp = props.available ? props.application?.prologue : t('chat.tip.prologueMessage')
+  let temp = props.available ? props.application?.prologue : t('chat.tip.prologueMessage')
   if (temp) {
+    temp = updatedPrologue(temp)
     const tag_list = [
       /<html_rander>[\d\D]*?<\/html_rander>/g,
       /<echarts_rander>[\d\D]*?<\/echarts_rander>/g,
