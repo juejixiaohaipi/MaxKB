@@ -3,13 +3,24 @@
 # 提取差异文件到纯净分支
 # 用法: 
 #   ./extract-changes.sh                    # 使用默认设置
-#   ./extract-changes.sh main               # 指定目标分支
-#   ./extract-changes.sh main new-branch    # 指定目标分支和新分支名
-
-# example
-# ./extract-changes.sh feature/release-2.2   
+#   ./extract-changes.sh release-2.2               # 指定目标分支
+#   ./extract-changes.sh release-2.2 new-branch    # 指定目标分支和新分支名  
 
 set -euo pipefail
+
+# 清理函数：确保异常退出时恢复到原始分支
+cleanup() {
+    local current
+    current=$(git branch --show-current 2>/dev/null || echo "")
+    if [ -n "$original_branch" ] && [ "$current" != "$original_branch" ]; then
+        echo -e "\033[1;33m⚠️  异常退出，正在恢复到原分支 $original_branch ...\033[0m" >&2
+        git checkout -f "$original_branch" 2>/dev/null || true
+        if [ -n "${new_branch:-}" ]; then
+            git branch -D "$new_branch" 2>/dev/null || true
+        fi
+    fi
+}
+trap cleanup EXIT
 
 # 颜色输出函数
 error() { echo -e "\033[0;31m❌ $1\033[0m" >&2; }
@@ -21,7 +32,7 @@ info() { echo -e "\033[0;34m📝 $1\033[0m"; }
 original_branch=$(git branch --show-current)
 
 # 参数处理
-target_branch="${1:-main}"
+target_branch="${1:-release-2.2}"
 new_branch="${2:-${original_branch}-clean}"
 
 # 显示执行信息
@@ -71,9 +82,9 @@ fi
 info "创建纯净分支..."
 git checkout --orphan "$new_branch" > /dev/null
 
-# 彻底清理工作区
+# 彻底清理工作区（orphan 分支没有 HEAD，git reset --hard 无效，需用 git rm -rf .）
 info "彻底清理工作区..."
-git reset --hard > /dev/null
+git rm -rf . > /dev/null 2>&1 || true
 git clean -fd > /dev/null
 
 # 检查当前状态
@@ -86,7 +97,7 @@ fi
 # 验证工作区是否干净
 if [ -n "$(ls -A . 2>/dev/null | grep -v '^.git$')" ]; then
     error "工作区清理失败，仍有文件存在"
-    git checkout "$original_branch" > /dev/null 2>&1 || true
+    git checkout -f "$original_branch" > /dev/null 2>&1 || true
     exit 1
 fi
 
@@ -116,7 +127,7 @@ done
 if [ ${#extracted_files[@]} -eq 0 ]; then
     error "没有成功提取任何文件"
     info "尝试返回原分支..."
-    git checkout "$original_branch" > /dev/null 2>&1 || true
+    git checkout -f "$original_branch" > /dev/null 2>&1 || true
     git branch -D "$new_branch" > /dev/null 2>&1 || true
     exit 1
 fi
@@ -136,7 +147,7 @@ fi
 
 if [ -z "$(git status --porcelain)" ]; then
     error "没有文件可提交"
-    git checkout "$original_branch" > /dev/null 2>&1 || true
+    git checkout -f "$original_branch" > /dev/null 2>&1 || true
     git branch -D "$new_branch" > /dev/null 2>&1 || true
     exit 1
 fi
@@ -172,6 +183,9 @@ else
     info "新分支文件列表:"
     git ls-files | head -15
 fi
+
+# 成功完成，取消 trap 清理（避免正常退出时误执行清理）
+trap - EXIT
 
 # 返回原分支
 info "返回原分支 $original_branch ..."
